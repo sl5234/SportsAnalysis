@@ -1,0 +1,19 @@
+{
+    "sakrback": {
+        "awscloudformation": {
+            "AuthRoleName": "sportsanalysis-sakrback-20190812225844-authRole",
+            "UnauthRoleArn": "arn:aws:iam::197330522528:role/sportsanalysis-sakrback-20190812225844-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::197330522528:role/sportsanalysis-sakrback-20190812225844-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "sportsanalysis-sakrback-20190812225844-deployment",
+            "UnauthRoleName": "sportsanalysis-sakrback-20190812225844-unauthRole",
+            "StackName": "sportsanalysis-sakrback-20190812225844",
+            "StackId": "arn:aws:cloudformation:us-east-1:197330522528:stack/sportsanalysis-sakrback-20190812225844/69f7a0c0-bd8f-11e9-9b10-0a6bdb6a0e76"
+        },
+        "categories": {
+            "auth": {
+                "sportsanalysisd4fed481": {}
+            }
+        }
+    }
+}
