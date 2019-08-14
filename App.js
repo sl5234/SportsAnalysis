@@ -2,7 +2,14 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View, Button } from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  Button,
+  AsyncStorage,
+} from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -38,11 +45,16 @@ const addTodo = `mutation createTodo($name:String! $description: String!) {
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { isLoadingComplete: false }
+    this.state = {
+      isLoadingComplete: false,
+      userFavorites: null,
+    }
+    this.loadResourcesAsync = this.loadResourcesAsync.bind(this)
     this.handleFinishLoading = this.handleFinishLoading.bind(this)
   }
 
   async loadResourcesAsync() {
+    // Loads fonts
     await Promise.all([
       Asset.loadAsync([
         require('./assets/images/robot-dev.png'),
@@ -56,6 +68,10 @@ class App extends React.Component {
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       }),
     ]);
+
+    // Loads user favorites
+    const res = await AsyncStorage.getItem('userFavorites') || null
+    this.setState({ userFavorites: res })
   }
 
   handleLoadingError(error) {
@@ -65,6 +81,7 @@ class App extends React.Component {
   }
 
   handleFinishLoading() {
+    console.log("here")
     this.setState({ isLoadingComplete: true })
   }
 
@@ -86,7 +103,6 @@ class App extends React.Component {
 
   render() {
     const { isLoadingComplete, setLoadingComplete } = this.state
-
     if (!isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
@@ -100,7 +116,7 @@ class App extends React.Component {
         <PaperProvider>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+            <AppNavigator screenProps={{ userFavorites: this.state.userFavorites }} />
             <Button onPress={this.listQuery} title="GraphQL Query" />
             <Button onPress={this.todoMutation} title="GraphQL Mutation" />
           </View>

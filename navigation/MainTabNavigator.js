@@ -6,7 +6,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import CustomizationScreen from '../screens/CustomizationScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -15,7 +14,6 @@ const config = Platform.select({
 
 const HomeStack = createStackNavigator(
   {
-    Customization: CustomizationScreen,
     Home: HomeScreen,
   },
   config
