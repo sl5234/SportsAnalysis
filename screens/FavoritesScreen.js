@@ -7,41 +7,25 @@ import {
 import { List, Checkbox } from 'react-native-paper';
 
 export default function FavoritesScreen(props) {
-  console.log(props)
+  const element = props.userinfo.map((league, index) => {
+    const subelement = league.teams.map((team, index) => {
+      return (
+        <List.Item title={team.name} key={index}/>
+      );
+    })
+    return (
+      <List.Accordion
+          title={league.title}
+          left={props => <List.Icon {...props} icon="folder" />}
+          key={index}
+      >{subelement}
+      </List.Accordion>
+    );
+  })
 
   return (
     <ScrollView>
-      <List.Accordion
-        title="Uncontrolled Accordion"
-        left={props => <List.Icon {...props} icon="folder" />}
-      >
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
-      </List.Accordion>
-
-      <List.Accordion
-        title="Controlled Accordion"
-        left={props => <List.Icon {...props} icon="folder" />}
-      >
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
-      </List.Accordion>
-
-      <List.Accordion
-        title="Controlled Accordion"
-        left={props => <List.Icon {...props} icon="folder" />}
-      >
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
-      </List.Accordion>
-
-      <List.Accordion
-        title="Controlled Accordion"
-        left={props => <List.Icon {...props} icon="folder" />}
-      >
-        <List.Item title="First item" />
-        <List.Item title="Second item" />
-      </List.Accordion>
+      {element}
     </ScrollView>
   );
 }

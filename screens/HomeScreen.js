@@ -17,9 +17,161 @@ import { MonoText } from '../components/StyledText';
 export default function HomeScreen(props) {
   const userFavorites = props.screenProps.userFavorites
 
+  const data = [
+    {
+      title: "NBA",
+      teams: [
+        {
+          name: "Los Angeles Clippers"
+        },
+        {
+          name: "Los Angeles Lakers"
+        },
+        {
+          name: "Boston Celtics"
+        },
+        {
+          name: "Golden State Warriors"
+        },
+        {
+          name: "Houston Rockets"
+        },
+        {
+          name: "New York Knicks"
+        },
+      ]
+    },
+    {
+      title: "KBO",
+      teams: [
+        {
+          name: "Samsung Lions"
+        },
+        {
+          name: "Hanwha Eagles"
+        },
+        {
+          name: "Doosan Bears"
+        },
+        {
+          name: "Kia Tigers"
+        },
+        {
+          name: "LG Twins"
+        },
+        {
+          name: "NC Dinos"
+        },
+      ]
+    },
+    {
+      title: "MLB",
+      teams: [
+        {
+          name: "St. Louis Cardinals"
+        },
+        {
+          name: "Los Angeles Dodgers"
+        },
+        {
+          name: "Boston Redsox"
+        },
+        {
+          name: "New York Yankees"
+        },
+        {
+          name: "Colorado Rockies"
+        },
+        {
+          name: "Seattle Mariners"
+        },
+      ]
+    },
+    {
+      title: "Serie A",
+      teams: [
+        {
+          name: "S.S.C. Napoli"
+        },
+        {
+          name: "A.S. Roma"
+        },
+        {
+          name: "Juventus F.C."
+        },
+        {
+          name: "A.C. Milan"
+        },
+        {
+          name: "Inter Milan"
+        },
+        {
+          name: "SS Lazio"
+        },
+      ]
+    },
+    {
+      title: "English Premier League",
+      teams: [
+        {
+          name: "Manchester United F.C."
+        },
+        {
+          name: "Manchester City F.C."
+        },
+        {
+          name: "Liverpool F.C."
+        },
+        {
+          name: "Chlesea F.C."
+        },
+        {
+          name: "Arsenal F.C."
+        },
+        {
+          name: "Tottenham Hotspur F.C."
+        },
+      ]
+    },
+    {
+      title: "Bundesliga",
+      teams: [
+        {
+          name: "FC Bayern Munich"
+        },
+        {
+          name: "Borussia Dortmund"
+        },
+      ]
+    },
+    {
+      title: "KBL",
+      teams: [
+        {
+          name: "Jeonju KCC Egis"
+        },
+        {
+          name: "Seoul SK Knights"
+        },
+        {
+          name: "Seoul Samsung Thunders"
+        },
+        {
+          name: "Ulsan Hyundai Mobis Phoebus"
+        },
+        {
+          name: "Anyang KGC"
+        },
+        {
+          name: "Goyang Orion Orions"
+        },
+      ]
+    },
+  ]
+
   if (userFavorites === null) {
     return (
-      <FavoritesScreen />
+      <FavoritesScreen userinfo={data}/>
     )
   } else {
     return (

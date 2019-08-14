@@ -81,7 +81,6 @@ class App extends React.Component {
   }
 
   handleFinishLoading() {
-    console.log("here")
     this.setState({ isLoadingComplete: true })
   }
 
