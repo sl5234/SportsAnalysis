@@ -69,6 +69,9 @@ class App extends React.Component {
       }),
     ]);
 
+    // TESTING USE ONLY
+    // await AsyncStorage.removeItem('userFavorites')
+
     // Loads user favorites
     const res = await AsyncStorage.getItem('userFavorites') || null
     this.setState({ userFavorites: res })

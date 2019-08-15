@@ -8,226 +8,86 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AsyncStorage,
 } from 'react-native';
 
 import FavoritesScreen from './FavoritesScreen';
+import { user_favorites_template } from './fav-data';
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen(props) {
-  const userFavorites = props.screenProps.userFavorites
+export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { userFavorites: props.screenProps.userFavorites }
+    this._handlePress = this._handlePress.bind(this)
+  }
 
-  const data = [
-    {
-      title: "NBA",
-      teams: [
-        {
-          name: "Los Angeles Clippers"
-        },
-        {
-          name: "Los Angeles Lakers"
-        },
-        {
-          name: "Boston Celtics"
-        },
-        {
-          name: "Golden State Warriors"
-        },
-        {
-          name: "Houston Rockets"
-        },
-        {
-          name: "New York Knicks"
-        },
-      ]
-    },
-    {
-      title: "KBO",
-      teams: [
-        {
-          name: "Samsung Lions"
-        },
-        {
-          name: "Hanwha Eagles"
-        },
-        {
-          name: "Doosan Bears"
-        },
-        {
-          name: "Kia Tigers"
-        },
-        {
-          name: "LG Twins"
-        },
-        {
-          name: "NC Dinos"
-        },
-      ]
-    },
-    {
-      title: "MLB",
-      teams: [
-        {
-          name: "St. Louis Cardinals"
-        },
-        {
-          name: "Los Angeles Dodgers"
-        },
-        {
-          name: "Boston Redsox"
-        },
-        {
-          name: "New York Yankees"
-        },
-        {
-          name: "Colorado Rockies"
-        },
-        {
-          name: "Seattle Mariners"
-        },
-      ]
-    },
-    {
-      title: "Serie A",
-      teams: [
-        {
-          name: "S.S.C. Napoli"
-        },
-        {
-          name: "A.S. Roma"
-        },
-        {
-          name: "Juventus F.C."
-        },
-        {
-          name: "A.C. Milan"
-        },
-        {
-          name: "Inter Milan"
-        },
-        {
-          name: "SS Lazio"
-        },
-      ]
-    },
-    {
-      title: "English Premier League",
-      teams: [
-        {
-          name: "Manchester United F.C."
-        },
-        {
-          name: "Manchester City F.C."
-        },
-        {
-          name: "Liverpool F.C."
-        },
-        {
-          name: "Chlesea F.C."
-        },
-        {
-          name: "Arsenal F.C."
-        },
-        {
-          name: "Tottenham Hotspur F.C."
-        },
-      ]
-    },
-    {
-      title: "Bundesliga",
-      teams: [
-        {
-          name: "FC Bayern Munich"
-        },
-        {
-          name: "Borussia Dortmund"
-        },
-      ]
-    },
-    {
-      title: "KBL",
-      teams: [
-        {
-          name: "Jeonju KCC Egis"
-        },
-        {
-          name: "Seoul SK Knights"
-        },
-        {
-          name: "Seoul Samsung Thunders"
-        },
-        {
-          name: "Ulsan Hyundai Mobis Phoebus"
-        },
-        {
-          name: "Anyang KGC"
-        },
-        {
-          name: "Goyang Orion Orions"
-        },
-      ]
-    },
-  ]
+  _handlePress(favs) {
+    this.setState({ userFavorites: favs })
+  }
 
-  if (userFavorites === null) {
-    return (
-      <FavoritesScreen userinfo={data}/>
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            <DevelopmentModeNotice />
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View
-              style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText>screens/HomeScreen.js</MonoText>
+  render() {
+    if (this.state.userFavorites === null) {
+      return (
+        <FavoritesScreen userinfo={user_favorites_template} onFinish={this._handlePress}/>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}>
+            <View style={styles.welcomeContainer}>
+              <Image
+                source={
+                  __DEV__
+                    ? require('../assets/images/robot-dev.png')
+                    : require('../assets/images/robot-prod.png')
+                }
+                style={styles.welcomeImage}
+              />
             </View>
 
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
+            <View style={styles.getStartedContainer}>
+              <DevelopmentModeNotice />
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
+              <Text style={styles.getStartedText}>Get started by opening</Text>
+
+              <View
+                style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+                <MonoText>screens/HomeScreen.js</MonoText>
+              </View>
+
+              <Text style={styles.getStartedText}>
+                Change this text and your app will automatically reload.
               </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+            </View>
 
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
+            <View style={styles.helpContainer}>
+              <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+                <Text style={styles.helpLinkText}>
+                  Help, it didn’t automatically reload!
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
 
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>
-              navigation/MainTabNavigator.js
-            </MonoText>
+          <View style={styles.tabBarInfoContainer}>
+            <Text style={styles.tabBarInfoText}>
+              This is a tab bar. You can edit it in:
+            </Text>
+
+            <View
+              style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+              <MonoText style={styles.codeHighlightText}>
+                navigation/MainTabNavigator.js
+              </MonoText>
+            </View>
           </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
