@@ -8,12 +8,17 @@ import {
   StyleSheet,
   View,
   Button,
+  Text,
   AsyncStorage,
 } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
+
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider as StoreProvider } from 'react-redux';
+import { store, persistor } from './store';
 
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import S3Album from 'aws-amplify';
@@ -45,10 +50,7 @@ const addTodo = `mutation createTodo($name:String! $description: String!) {
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isLoadingComplete: false,
-      userFavorites: null,
-    }
+    this.state = { isLoadingComplete: false }
     this.loadResourcesAsync = this.loadResourcesAsync.bind(this)
     this.handleFinishLoading = this.handleFinishLoading.bind(this)
   }
@@ -69,12 +71,8 @@ class App extends React.Component {
       }),
     ]);
 
-    // TESTING USE ONLY
-    // await AsyncStorage.removeItem('userFavorites')
-
-    // Loads user favorites
-    const res = await AsyncStorage.getItem('userFavorites') || null
-    this.setState({ userFavorites: res })
+    // TEST PURPOSE ONLY - Removes all data in storage saved via redux-persist
+    await AsyncStorage.removeItem('persist:root')
   }
 
   handleLoadingError(error) {
@@ -115,14 +113,18 @@ class App extends React.Component {
       );
     } else {
       return (
-        <PaperProvider>
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator screenProps={{ userFavorites: this.state.userFavorites }} />
-            <Button onPress={this.listQuery} title="GraphQL Query" />
-            <Button onPress={this.todoMutation} title="GraphQL Mutation" />
-          </View>
-        </PaperProvider>
+        <StoreProvider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <PaperProvider>
+              <View style={styles.container}>
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                <AppNavigator />
+                <Button onPress={this.listQuery} title="GraphQL Query" />
+                <Button onPress={this.todoMutation} title="GraphQL Mutation" />
+              </View>
+            </PaperProvider>
+          </PersistGate>
+        </StoreProvider>
       );
     }
   }

@@ -8,29 +8,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-  AsyncStorage,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import FavoritesScreen from './FavoritesScreen';
-import { user_favorites_template } from './fav-data';
 
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { userFavorites: props.screenProps.userFavorites }
-    this._handlePress = this._handlePress.bind(this)
-  }
-
-  _handlePress(favs) {
-    this.setState({ userFavorites: favs })
   }
 
   render() {
-    if (this.state.userFavorites === null) {
+    // Check storage (redux-persist) for user's favorites (initialState in reducer is null)
+    const userFavorites = this.props.identification.userFavorites
+    if (userFavorites === null) {
       return (
-        <FavoritesScreen userinfo={user_favorites_template} onFinish={this._handlePress}/>
+        <FavoritesScreen />
       );
     } else {
       return (
@@ -129,6 +124,10 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+
+const mapStateToProps = state => ({ identification: state.id })
+
+export default connect(mapStateToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

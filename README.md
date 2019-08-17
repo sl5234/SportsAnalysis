@@ -4,6 +4,22 @@
 * [Sports Analaysis KR](#sports-analysis-kr)
 * [Idea](#idea)
 
+## Features   
+
+✅ Push Notifications
+
+✅ Facebook Audience Network
+
+✅ React Navigation   
+
+✅ Redux, Redux middleware (Redux Thunk, Redux Persist)
+
+✅ Amplify React Native
+
+✅ Twitter, Youtube API   
+
+✅ Federated Identities
+
 ## SAKR
 
 Sports Analysis KR is a sports and sports culture app. We provide extensive coverage of videos and photos, feeds and articles so you can enjoy your favorite sports even more. Our mission is to ignite the sports culture in Korea.

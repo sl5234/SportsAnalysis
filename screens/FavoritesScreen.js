@@ -3,15 +3,16 @@ import {
   StyleSheet,
   Button,
   ScrollView,
-  AsyncStorage,
 } from 'react-native';
 import { List } from 'react-native-paper';
 
-import _ from 'lodash'
+import { connect } from 'react-redux'
 
 import CustomCheckbox from '../components/CustomCheckbox';
+import { initializeUserFavs } from '../actions/index';
+import { user_favorites_template } from '../screens/fav-data';
 
-export default class FavoritesScreen extends React.Component {
+class FavoritesScreen extends React.Component {
   constructor(props) {
     super(props)
     this._handleFinish = this._handleFinish.bind(this)
@@ -21,25 +22,13 @@ export default class FavoritesScreen extends React.Component {
     TEAMS = [...TEAMS, team]
   }
 
-  async _handleFinish() {
-    // deep copy provided favorites template and update accordingly
-    let favs_template = _.cloneDeep(this.props.userinfo)
-    TEAMS.map((selected_team) => {
-      favs_template.map((league) => {
-        league.teams.map((team) => {
-          if (team.name === selected_team) { team.selected = !team.selected }
-        })
-      })
-    })
-    // save user favorites data in device storage
-    await AsyncStorage.setItem('userFavorites', JSON.stringify(favs_template))
-    
-    // invoke callback to HomeScreen prompting screen transition
-    this.props.onFinish(favs_template)
+  _handleFinish() {
+    // save user favorites data in redux state -> device storage (redux-persist)
+    this.props.dispatchInitializeUserFavs(TEAMS)
   }
 
   render() {
-    const leagues = this.props.userinfo.map(league => {
+    const leagues = user_favorites_template.map(league => {
       const teams = league.teams.map(team => {
         return (
           <CustomCheckbox
@@ -70,6 +59,12 @@ export default class FavoritesScreen extends React.Component {
 }
 
 let TEAMS = []
+
+const mapDispatchToProps = {
+  dispatchInitializeUserFavs: (selectedFavs) => initializeUserFavs(selectedFavs),
+}
+
+export default connect(null, mapDispatchToProps)(FavoritesScreen);
 
 const styles = StyleSheet.create({
   container: {
