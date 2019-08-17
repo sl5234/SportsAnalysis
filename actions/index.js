@@ -11,7 +11,6 @@ function saveUserFavs(userFavorites) {
 }
 
 export function initializeUserFavs(selectedFavs) {
-  console.log("HEY", selectedFavs)
   // deep copy provided favorites template and update accordingly
   let userFavorites = _.cloneDeep(user_favorites_template)
   selectedFavs.map((selected_team) => {
@@ -21,7 +20,6 @@ export function initializeUserFavs(selectedFavs) {
       })
     })
   })
-
   // save user favorites data in redux state -> device storage (redux-persist)
   return (dispatch) => {
     dispatch(saveUserFavs(userFavorites))

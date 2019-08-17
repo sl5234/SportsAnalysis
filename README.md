@@ -12,7 +12,7 @@
 
 ✅ React Navigation   
 
-✅ Redux, Redux middleware (Redux Thunk, Redux Persist)
+✅ Redux middleware (Redux Thunk, Redux Persist)
 
 ✅ Amplify React Native
 
